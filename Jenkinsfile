@@ -1,25 +1,27 @@
 pipeline {
     agent any
     tools {
-        jdk 'JDK22'   // Matches the Name you gave in Step 1
-        maven 'Maven3' // Matches the Name you gave in Step 1
+        jdk 'JDK22'
+        maven 'Maven3'
     }
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/harsha-bharadwaj100/jacoco-lab.git' [cite: 92, 94]
+                git 'https://github.com/harsha-bharadwaj100/jacoco-lab.git'
             }
         }
         stage('Build & Test with Coverage') {
             steps {
-                sh 'mvn clean test' [cite: 97, 99]
+                sh 'mvn clean test'
             }
         }
     }
     post {
         always {
-            junit '**/target/surefire-reports/*.xml' [cite: 103, 105]
-            archiveArtifacts artifacts: 'target/site/jacoco/**', fingerprint: true [cite: 106]
+            // Records the JUnit test results in Jenkins [cite: 105]
+            junit '**/target/surefire-reports/*.xml'
+            // Archives the JaCoCo HTML reports for viewing [cite: 106]
+            archiveArtifacts artifacts: 'target/site/jacoco/**', fingerprint: true
         }
     }
 }
